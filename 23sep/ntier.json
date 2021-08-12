@@ -1,0 +1,127 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Here are some details about the template.",
+    "Parameters": {
+        "vpcname": {
+            "Description": "Name your VPC",
+            "Type": "String",
+            "Default": "fromCfVpc"
+        },
+        "appsub": {
+            "Description": "Name your App Subnet",
+            "Type": "String",
+            "Default": "fromCfApp`"
+        },
+        "websub": {
+            "Description": "Name your Web subnet",
+            "Type": "String",
+            "Default": "fromCfWeb"
+        },
+        "dbsub": {
+            "Description": "Name your db subnet",
+            "Type": "String",
+            "Default": "fromCfweb"
+        },
+        "vpccidr": {
+            "Description": "Name CIDR of VPC",
+            "Type": "String",
+            "Default": "192.168.0.0/24"
+        },
+        "webcidr": {
+            "Description": "Name CIDR of web",
+            "Type": "String",
+            "Default": "192.168.1.0/24"
+        },
+        "appcidr": {
+            "Description": "Name CIDR of app",
+            "Type": "String",
+            "Default": "192.168.2.0/24"
+        },
+        "dbcidr": {
+            "Description": "Name CIDR of db",
+            "Type": "String",
+            "Default": "192.168.3.0/24"
+        }
+    },
+    "Resources": {
+        "ntier": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "vpccidr"
+                },
+                "EnableDnsHostnames": true,
+                "EnableDnsSupport": true,
+                "InstanceTenancy": "default",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "vpcname"
+                        }
+                    }
+                ]
+            }
+        },
+        "websubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "ap-south-1a",
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "webcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "websub"
+                        }
+                    }
+                ]
+            }
+        },
+        "appsubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "ap-south-1b",
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "appcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "appsub"
+                        }
+                    }
+                ]
+            }
+        },
+        "dbsubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "ap-south-1c",
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "dbcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "dbsub"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
