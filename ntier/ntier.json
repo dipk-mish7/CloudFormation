@@ -41,6 +41,18 @@
             "Description": "Name CIDR of db",
             "Type": "String",
             "Default": "192.168.3.0/24"
+        },
+        "websubnet-az": {
+            "Description": "Name AZ of Web Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "appsubnet-az": {
+            "Description": "Name AZ of App Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "dbsubnet-az": {
+            "Description": "Name AZ of DB Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -66,7 +78,9 @@
         "websubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "ap-south-1a",
+                "AvailabilityZone": {
+                    "Ref": "websubnet-az"
+                },
                 "VpcId": {
                     "Ref": "ntier"
                 },
@@ -86,7 +100,9 @@
         "appsubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "ap-south-1b",
+                "AvailabilityZone": {
+                    "Ref": "appsubnet-az"
+                },
                 "VpcId": {
                     "Ref": "ntier"
                 },
@@ -106,7 +122,9 @@
         "dbsubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "ap-south-1c",
+                "AvailabilityZone": {
+                    "Ref": "dbsubnet-az"
+                },
                 "VpcId": {
                     "Ref": "ntier"
                 },
