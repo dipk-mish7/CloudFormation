@@ -1,0 +1,367 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Here are some details about the template.",
+    "Parameters": {
+        "vpcname": {
+            "Description": "Name your VPC",
+            "Type": "String",
+            "Default": "VPC from Cloudformation"
+        },
+        "websub": {
+            "Description": "Name your Web Subnet",
+            "Type": "String",
+            "Default": "Web Subnet from Cloudformation"
+        },
+        "websubbcp": {
+            "Description": "Name your Backup Web Subnet",
+            "Type": "String",
+            "Default": "Backup Web Subnet from Cloudformation"
+        },
+        "appsub": {
+            "Description": "Name your app Subnet",
+            "Type": "String",
+            "Default": "app Subnet from Cloudformation"
+        },
+        "appsubbcp": {
+            "Description": "Name your Backup App Subnet",
+            "Type": "String",
+            "Default": "Backup App Subnet from Cloudformation"
+        },
+        "dbsub": {
+            "Description": "Name your DB Subnet",
+            "Type": "String",
+            "Default": "DB Subnet from Cloudformation"
+        },
+        "dbsubbcp": {
+            "Description": "Name your Backup DB Subnet",
+            "Type": "String",
+            "Default": "Backup DB Subnet from Cloudformation"
+        },
+        "VPCCIDR": {
+            "Description": "Put your VPC CIDR Value",
+            "Type": "String",
+            "Default": "0.0.0.0/0"
+        },
+        "webcidr": {
+            "Description": "Put your Web CIDR Value",
+            "Type": "String",
+            "Default": "0.0.0.0/0"
+        },
+        "webbcpcidr": {
+            "Description": "Put your Web CIDR Value",
+            "Type": "String",
+            "Default": "0.0.0.0/0"
+        },
+        "appcidr": {
+            "Description": "Put your App CIDR Value",
+            "Type": "String",
+            "Default": "0.0.0.0/0"
+        },
+        "appbcpcidr": {
+            "Description": "Put your Backup App CIDR Value",
+            "Type": "String",
+            "Default": "0.0.0.0/0"
+        },
+        "dbcidr": {
+            "Description": "Put your DB CIDR Value",
+            "Type": "String",
+            "Default": "0.0.0.0/0"
+        },
+        "dbbcpcidr": {
+            "Description": "Put your Backup DB CIDR Value",
+            "Type": "String",
+            "Default": "0.0.0.0/0"
+        },
+        "websubaz": {
+            "Description": "Name AZ of Web Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "webbcpsubaz": {
+            "Description": "Name AZ of Bacup Web Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "appsubaz": {
+            "Description": "Name AZ of App Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "appbcpsubaz": {
+            "Description": "Name AZ of Backup App Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "dbsubaz": {
+            "Description": "Name AZ of DB Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "dbbcpsubaz": {
+            "Description": "Name AZ of Backup DB Subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        }
+    },
+    "Resources": {
+        "ntier": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "VPCCIDR"
+                },
+                "EnableDnsHostnames": true,
+                "EnableDnsSupport": true,
+                "InstanceTenancy": "default",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "vpcname"
+                    }
+                ]
+            }
+        },
+        "web": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "websubaz"
+                },
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "webcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "websub"
+                    }
+                ]
+            }
+        },
+        "webbcp": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "webbcpsubaz"
+                },
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "webbcpcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "websubbcp"
+                    }
+                ]
+            }
+        },
+        "app": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "appsubaz"
+                },
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "appcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "appsub"
+                    }
+                ]
+            }
+        },
+        "appbcp": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "appbcpsubaz"
+                },
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "appbcpcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "appsubbcp"
+                    }
+                ]
+            }
+        },
+        "db": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "dbsubaz"
+                },
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "dbcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "dbsub"
+                    }
+                ]
+            }
+        },
+        "dbbcp": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "dbbcpsubaz"
+                },
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "CidrBlock": {
+                    "Ref": "dbbcpcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "dbsubbcp"
+                    }
+                ]
+            }
+        },
+        "privateRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Private-RT"
+                    }
+                ]
+            }
+        },
+        "publicRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Public-RT"
+                    }
+                ]
+            }
+        },
+        "igw": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier-igw"
+                    }
+                ]
+            }
+        },
+        "AttachGateway": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntier"
+                },
+                "InternetGatewayId": {
+                    "Ref": "igw"
+                }
+            }
+        },
+        "routeName": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "publicRouteTable"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "igw"
+                }
+            }
+        },
+        "PubWeb": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web"
+                },
+                "RouteTableId": {
+                    "Ref": "publicRouteTable"
+                }
+            }
+        },
+        "PubWebbcp": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "webbcp"
+                },
+                "RouteTableId": {
+                    "Ref": "publicRouteTable"
+                }
+            }
+        },
+        "PriApp": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app"
+                },
+                "RouteTableId": {
+                    "Ref": "privateRouteTable"
+                }
+            }
+        },
+        "PriAppbcp": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "appbcp"
+                },
+                "RouteTableId": {
+                    "Ref": "privateRouteTable"
+                }
+            }
+        },
+        "PriDb": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db"
+                },
+                "RouteTableId": {
+                    "Ref": "privateRouteTable"
+                }
+            }
+        },
+        "PriDbbcp": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "dbbcp"
+                },
+                "RouteTableId": {
+                    "Ref": "privateRouteTable"
+                }
+            }
+        }
+    }
+}
