@@ -362,6 +362,26 @@
                     "Ref": "privateRouteTable"
                 }
             }
+        },
+        "rdsDBSubnetGroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "This is for ",
+                "SubnetIds": [
+                    {
+                        "Ref": "db"
+                    },
+                    {
+                        "Ref": "dbbcp"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "dbsubnet"
+                    }
+                ]
+            }
         }
     }
 }
