@@ -112,6 +112,22 @@
             "Description": "Enter t2.micro, m1.small, or m1.large. Default is t2.micro."
         }
     },
+    "Mappings": {
+        "RegionMap": {
+            "ap-south-1": {
+                "Ubuntu18ami": "ami-04bde106886a53080"
+            },
+            "us-east-1": {
+                "Ubuntu18ami": "ami-0747bdcabd34c712a"
+            },
+            "us-east-2": {
+                "Ubuntu18ami": "ami-0b9064170e32bde34"
+            },
+            "us-west-2": {
+                "Ubuntu18ami": " ami-090717c950a5c34d3"
+            }
+        }
+    },
     "Resources": {
         "ntier": {
             "Type": "AWS::EC2::VPC",
@@ -417,9 +433,11 @@
                 "MultiAZ": "false",
                 "PubliclyAccessible": "true",
                 "StorageType": "gp2",
-                "VPCSecurityGroups": {
-                    "Ref": "dbsecurityGroup"
-                },
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "dbsecurityGroup"
+                    }
+                ],
                 "Tags": [
                     {
                         "Key": "Name",
@@ -527,11 +545,13 @@
                 },
                 "Monitoring": "false",
                 "SubnetId": {
-                    "Ref": "appsub"
+                    "Ref": "app"
                 },
-                "SecurityGroupIds": {
-                    "Ref": "AppsecurityGroup"
-                },
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "AppsecurityGroup"
+                    }
+                ],
                 "Tags": [
                     {
                         "Key": "Name",
